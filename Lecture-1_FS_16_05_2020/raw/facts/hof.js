@@ -8,6 +8,7 @@ function transformer(num) {
         return num - 1;
     }
 }
+
 function test(number) {
     for (let div = 2; div * div <= number; div++) {
         if (number % div == 0) {
@@ -17,18 +18,22 @@ function test(number) {
     }
     return true;
 }
+
 // The map() method creates a new array populated with the results of calling 
 // a provided function on every element in the calling array.
 let tArr = arr.map(transformer);
 // The filter() method creates a
-//  new array with all elements that pass the test implemented by the provided function.
+//  new array with all elements that pass
+//  the test implemented by the provided function.
 let pArr = tArr.filter(test);
 console.log(arr);
 console.log("`````````````````````````````");
 console.log(tArr);
-console.log("````````````````````````````````````");
-console.log(pArr);
+// console.log("````````````````````````````````````");
+// console.log(pArr);
 // HW
 // Freecodecamp=> Basic JavaScript,Functional Programming
-// mymap(arr,transformer)
-// myfilter(arr,test)
+// mymap(arr,transformer);
+// myfilter(arr,test);
+// Relative path=>../../Lecture-1_FS_16_05_2020
+// Absoulte => C:\Users\Mafia\Desktop\GTBIT\Lecture-1_FS_16_05_2020

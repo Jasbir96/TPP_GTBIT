@@ -2,7 +2,8 @@
 // System.out.println
 // console.log("Hello All:)");
 // Dynamically typed language
-// Primitive Types=> number ,String, boolean,null ,undefined
+// Primitive Types=> number ,String, boolean,null ,undefined,Symbol
+// Non primitive=> functions,array,objects 
 let varName;
 varName = 10;
 varName = true;
