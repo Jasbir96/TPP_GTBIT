@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* lement name  */
+        p {
+            font-size: 2rem;
+        }
+        /* class => . */
+        .red {
+            color: red;
+        }
+
+        /* children selector => element1 element2*/
+        /* children selector => class1 class2*/
+        div p {
+            background-color: green;
+        }
+        .outer .red {
+            background-color: blueviolet;
+            color:burlywood;
+        }
+        .larger{
+            font-size: 5rem;
+        }
+        /* same element multiple classes */
+        .red.larger {
+            font-weight: 800;
+        }
+        /* id => # */
+        #myid {
+            color: blue;
+        }
+    </style>
+</head>
+<!-- parsing -> read -> identify -->
+<!-- parsing -> read (html elements select => html selectors)-> identify -->
+<body>
+    <h1>Hello All</h1>
+    <p> Lorem ipsum dolor sit amet.</p>
+    <p class="red">Lorem ipsum dolor sit amet.</p>
+    <p class="red">Lorem ipsum dolor sit amet.</p>
+    <p class="red">Lorem ipsum dolor sit amet.</p>
+
+    <div class="outer">
+        <p class="red">Lorem ipsum dolor sit amet.</p>
+        <p class="red larger">Lorem ipsum dolor sit amet.</p>
+    </div>
+    <p id="myid">Lorem ipsum dolor sit amet.</p>
+</body>
+</html>
+
+<!-- npm cache clear --force -->
+<!-- .red.large -->
+<!-- .outer .red -->
