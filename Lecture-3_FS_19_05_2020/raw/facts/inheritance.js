@@ -10,7 +10,6 @@ Array.prototype.sum = function () {
     }
     return sum;
 }
-
 let arr = [4, 14, 17, 23, 48, 66];
 let arr1 = [4, 67, 17, 23, 48, 66];
 let arr2 = [4, 14, -23, 23, 48, 66];

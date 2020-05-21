@@ -25,8 +25,10 @@ function parseHTML(data) {
     // page => cheerio
     // load => html 
     let $ = cheerio.load(data);
+    
     // Page=> selector pass  => text => text
     console.log("########################");
+    // page selection
     let bowlersArr = $(".table.bowler tbody tr");
     // console.log(bowlersArr.length);
     let maxWicketTaker = "";
@@ -34,8 +36,10 @@ function parseHTML(data) {
     for (let i = 0; i < bowlersArr.length; i++) {
         // name
         // tr => td => 9
+        // $(selector)=> represent => page
+        // $=> elements search => find
+        // 
         let name = $($(bowlersArr[i]).find("td")[0]).text();
-
         let wickets = $($(bowlersArr[i]).find("td")[4]).text();
 
         // console.log(name + " " + wickets);

@@ -32,6 +32,7 @@ function parseHTML(data) {
     console.log("########################");
     let AllCards = $(".match-score-block");
     // console.log(AllCards.length);
+    // prallel request 
     for (let i = 0; i < AllCards.length; i++) {
         let matchType = $(AllCards[i]).find("p.small.match-description").text();
         let test = matchType.includes("ODI") || matchType.includes("T20I");
@@ -61,6 +62,7 @@ function matchHandler(link) {
         // console.log(response);clear
         if (err === null && response.statusCode === 200) {
             // console.log(`match${count} recieved`);
+            // work end => sequence 
             fs.writeFileSync(`match${count}.html`, data);
             count--;
             handleEachMatch(data);
@@ -81,7 +83,6 @@ function matchHandler(link) {
 function handleEachMatch(data) {
     let $ = cheerio.load(data);
     let format = $(".match-page-wrapper .desc.text-truncate").text();
-
     if (format.includes("ODI")) {
         format = "ODI";
     } else {
@@ -96,6 +97,10 @@ function handleEachMatch(data) {
     // 1st inning 
     let ftiName = $(fti).find(".header-title.label").text();
     let fInnigPlayers = $(fti).find(".table.batsman tbody tr");
+    let str = "a"
+    // str.split("a");
+    // ["Hello How ", "re you"];
+    console.log(ftiName);
     ftiName = ftiName.split("Innings")[0];
     // console.log(ftiName)
     for (let i = 0; i < fInnigPlayers.length; i++) {
@@ -110,6 +115,7 @@ function handleEachMatch(data) {
     }
     // console.log("``````````````````");
     let stiName = $(sti).find(".header-title.label").text();
+    console.log(stiName);
     stiName = stiName.split("Innings")[0];
     // console.log(stiName);
     let sInnigPlayers = $(sti).find(".table.batsman tbody tr");
@@ -131,7 +137,7 @@ function createLeaderBoard(name, format, runs, team) {
     //create a leaderboard
     // VK=> 
     // check => leaderboard => playe exist => update
-    runs=parseInt(runs);
+    runs = parseInt(runs);
     for (let i = 0; i < leaderboard.length; i++) {
         let player = leaderboard[i];
         if (player.Name === name && player.Team === team && player.Format === format) {

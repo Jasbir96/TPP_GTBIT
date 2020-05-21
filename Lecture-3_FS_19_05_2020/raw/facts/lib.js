@@ -12,7 +12,8 @@ function lib(number) {
 console.log("Number is prime ? " + lib(21));
 console.log("Number is prime ? " + lib(23));
 //  framework style
-let { exec } = require("child_process")
+let {exec}   = require("child_process");
+
 // framework => user=> socket 
 function frame(number, scb, fcb) {
     for (let div = 2; div * div <= number; div++) {

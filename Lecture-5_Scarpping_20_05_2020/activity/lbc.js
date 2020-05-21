@@ -7,6 +7,7 @@ let commentaryId = process.argv[3];
 let url = `https://www.espncricinfo.com/series/${seriesId}/commentary/${commentaryId}/new-zealand-vs-india-3rd-odi-india-in-new-zealand-2019-20`
 // npm install request 
 console.log("sending Request");
+//  request =>get  html 
 request(url, function (err, response, data) {
     console.log("Data Recieved");
     // console.log(response);clear
@@ -22,6 +23,7 @@ request(url, function (err, response, data) {
     }
 })
 
+// data => find/filter=> cheerio(css,jquery)
 function parseHTML(data) {
     // page => cheerio
     // load => html 
@@ -33,10 +35,12 @@ function parseHTML(data) {
     // $().
     let AllCArr = 
     $(".d-flex.match-comment-padder.align-items-center .match-comment-long-text");
+    console.log(AllCArr);
     // alternative => first 
-    
+    // let arr[]=[1,2,3,4]
     // let text = AllCArr.html();
     // 
+    // cheerio array => index use => wrap it again in cheerio
        let text= $(AllCArr[0]).text();
     console.log(text);
     console.log("########################")

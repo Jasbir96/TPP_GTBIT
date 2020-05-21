@@ -48,15 +48,15 @@
 
 // you can return a varible from a function 
 // you can return a function from a function 
-// function helper() {
-//     console.log("Helper fn");
-//     return function inner() {
-//         console.log("Inner fn");
-//     };
+function helper() {
+    console.log("Helper fn");
+    return function inner() {
+        console.log("Inner fn");
+    };
 
-// }
-// let innerfn = helper();
-// innerfn();
+}
+let innerfn = helper();
+innerfn();
 
 
 
