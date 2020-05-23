@@ -1,0 +1,1 @@
+node selenium.js "credentials.json"
