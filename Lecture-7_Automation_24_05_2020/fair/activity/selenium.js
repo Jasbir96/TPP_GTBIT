@@ -5,7 +5,7 @@ let fs = require("fs");
 let credentialsFile = process.argv[2];
 // build browser
 let bldr = new swd.Builder();
-let login, pwd, email;
+let login, pwd, email, h3Array, highArr, gCode;
 // represents single tab 
 let driver = bldr.forBrowser("chrome").build();
 // username,pwd
@@ -59,7 +59,6 @@ fileWillBeReadPromise
     }).then(function () {
         let qpUrlP = driver.getCurrentUrl();
         return qpUrlP;
-
     }).
     then(function (qpurl) {
         // how to resolve (n)promises in series 
@@ -95,7 +94,6 @@ function navigatorfn(selector) {
 //     "email":
 //     "link"
 // }
-
 function questionSolver(qpurl) {
     return new Promise(function (resolve, reject) {
         let goToQpUrlP = driver.get(qpurl);
@@ -113,7 +111,54 @@ function questionSolver(qpurl) {
                 console.log("Lock btn did not occur");
             }
 
+        }).then(function () {
+            let cAreaWillBeSelectedP = driver.findElement(swd.By.css(".challenge-editorial-block.editorial-setter-code .editorial-code-box .hackdown-content"));
+            return cAreaWillBeSelectedP;
         })
+            .then(function (cArea) {
+                let AllH3Promise = cArea.findElements(swd.By.css("h3"));
+                let highP = cArea.findElements(swd.By.css(".highlight"));
+                // All=> array promise=> promise=> all promises of that array get resolved
+                let combinedP = Promise.all([AllH3Promise, highP]);
+                return combinedP;
+            }).then(function (elementsArr) {
+                h3Array = elementsArr[0];
+                highArr = elementsArr[1];
+
+                let h3tPArr = [];
+                for (let i = 0; i < h3Array.length; i++) {
+                    let tPromise = h3Array[i].getText();
+                    h3tPArr.push(tPromise);
+                }
+                // get text from every h3 and then get the index of the c+++ code 
+                // get code from highArr
+                return Promise.all(h3tPArr);
+
+            }).then(function (h3TextArr) {
+                // console.log(h3Text);
+                let codeP;
+                for (let i = 0; i < h3TextArr.length; i++) {
+                    if (h3TextArr[i].includes("C++")) {
+                        codeP = highArr[i].getText();
+                    }
+                }
+                return codeP;
+            }).then(function (code) {
+                // console.log(code);
+                gCode = code;
+                let goToProblemPageP = navigatorfn("a[data-attr2='Problem']")
+                return goToProblemPageP;
+            }).then(function () {
+                let inputBoxClickedP = navigatorfn(".custom-input-checkbox");
+                return inputBoxClickedP;
+            }).then(function () {
+                let textAreaP = driver.findElement(swd.By.css(".custominput"));
+                return textAreaP;
+            }).then(function (textArea) {
+
+                let codeWillBeSubmittedP = textArea.sendKeys(gCode);
+                return codeWillBeSubmittedP;
+            })
             .then(function () {
                 resolve();
             }).catch(function (err) {
