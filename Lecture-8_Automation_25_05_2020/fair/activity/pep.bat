@@ -1,1 +1,1 @@
-node selenium.js "credentials.json"
+node selenium_async.js "credentials.json"
