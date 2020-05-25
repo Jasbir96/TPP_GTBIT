@@ -29,7 +29,7 @@ console.log("Before");
         await pBox.sendKeys(pwd);
         let loginBtn = await driver.findElement(swd.By.css("button[data-analytics='LoginPassword']"));
         await loginBtn.click();
-        console.log("User loggedIN");
+        console.log("User loggedin");
         let profileTab = await driver.findElement(swd.By.css("a[data-analytics='NavBarProfileDropDown']"));
         await profileTab.click();
         let adminBtn = await driver.findElement(swd.By.css("a[data-analytics='NavBarProfileDropDownAdministration']"));
