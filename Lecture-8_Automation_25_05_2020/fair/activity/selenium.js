@@ -16,7 +16,7 @@ let fileWillBeReadPromise = fs.promises.readFile(credentialsFile, "utf-8");
 //     "pwd":"yourpassword",
 //     "login":"https://www.hackerrank.com/auth/login"
 // }
-// read credentials,
+// read credentials
 fileWillBeReadPromise
     // go to login page
     .then(function (data) {
@@ -131,13 +131,15 @@ function questionSolver(questionLink) {
                     console.log("Lock element not found");
                 }
 
-            }).then(function () {
-                let cAreaWillBeSelectedP = driver.findElement(swd.By.css(".challenge-editorial-block.editorial-setter-code .editorial-code-box .hackdown-content"));
-                return cAreaWillBeSelectedP;
             })
-            .then(function (cArea) {
-                let AllH3Promise = cArea.findElements(swd.By.css("h3"));
-                let highP = cArea.findElements(swd.By.css(".highlight"));
+            // .then(function () {
+            //     let cAreaWillBeSelectedP = driver.findElement(swd.By.css(".challenge-editorial-block.editorial-setter-code .editorial-code-box .hackdown-content"));
+            //     return cAreaWillBeSelectedP;
+            // })
+            // Juggad
+            .then(function () {
+                let AllH3Promise = driver.findElements(swd.By.css("h3"));
+                let highP = driver.findElements(swd.By.css(".highlight"));
                 // All=> array promise=> promise=> all promises of that array get resolved
                 let combinedP = Promise.all([AllH3Promise, highP]);
                 return combinedP;
