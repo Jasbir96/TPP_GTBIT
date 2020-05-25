@@ -5,7 +5,7 @@ let fs = require("fs");
 let credentialsFile = process.argv[2];
 // build browser
 let bldr = new swd.Builder();
-let login, pwd, email, h3Array, highArr, gCode;
+let login, pwd, email, h3Array, highArr, gCode, gTextArea, gtBox;
 // represents single tab 
 let driver = bldr.forBrowser("chrome").build();
 // username,pwd
@@ -85,7 +85,6 @@ function navigatorfn(selector) {
             })
     })
 }
-
 // submit email,
 // submit password
 // login click
@@ -107,8 +106,8 @@ function questionSolver(qpurl) {
             let clickOnLockP = navigatorfn(".ui-btn.ui-btn-normal.ui-btn-primary");
             return clickOnLockP;
         }).catch(function (err) {
-            if (err.message === "Cannot read property 'click' of null") {
-                console.log("Lock btn did not occur");
+            if (err.message.includes('no such element: Unable to locate element: {"method":"css selector","selector":".ui-btn.ui-btn-normal.ui-btn-primary"}')) {
+                console.log("Lock element not found");
             }
 
         }).then(function () {
@@ -155,9 +154,30 @@ function questionSolver(qpurl) {
                 let textAreaP = driver.findElement(swd.By.css(".custominput"));
                 return textAreaP;
             }).then(function (textArea) {
-
+                gTextArea = textArea;
                 let codeWillBeSubmittedP = textArea.sendKeys(gCode);
                 return codeWillBeSubmittedP;
+            }).then(function () {
+                let sendCTRLaP = gTextArea.sendKeys(swd.Key.CONTROL + "a");
+                return sendCTRLaP;
+            }).then(function () {
+                let sendCTRLcP = gTextArea.sendKeys(swd.Key.CONTROL + "x");
+                return sendCTRLcP
+            })
+            .then(function () {
+                let tBoxWillSelectedP = driver.findElement(swd.By.css(".inputarea"));
+                return tBoxWillSelectedP;
+            }).then(function (tBox) {
+                // 
+                gtBox = tBox;
+                let sendCTRLaP = tBox.sendKeys(swd.Key.CONTROL + "a");
+                return sendCTRLaP;
+            }).then(function () {
+                let sendCTRLvP = gtBox.sendKeys(swd.Key.CONTROL + "v");
+                return sendCTRLvP;
+            }).then(function () {
+                let submitCodeP = navigatorfn(".hr-monaco-submit");
+                return submitCodeP
             })
             .then(function () {
                 resolve();
