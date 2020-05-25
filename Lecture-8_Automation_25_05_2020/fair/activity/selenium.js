@@ -130,7 +130,6 @@ function questionSolver(questionLink) {
                 if (err.message.includes('no such element: Unable to locate element: {"method":"css selector","selector":".ui-btn.ui-btn-normal.ui-btn-primary"}')) {
                     console.log("Lock element not found");
                 }
-
             })
             // .then(function () {
             //     let cAreaWillBeSelectedP = driver.findElement(swd.By.css(".challenge-editorial-block.editorial-setter-code .editorial-code-box .hackdown-content"));
