@@ -124,7 +124,7 @@ function questionSolver(questionLink) {
                 let goToEditorial = navigatorfn("a[data-attr2='Editorial']");
                 return goToEditorial;
             }).then(function () {
-                let clickOnLockP = navigatorfn(".ui-btn.ui-btn-normal.ui-btn-primary");
+                let clickOnLockP = navigatorfn("button.ui-btn.ui-btn-normal.ui-btn-primary");
                 return clickOnLockP;
             }).catch(function (err) {
                 if (err.message.includes('no such element: Unable to locate element: {"method":"css selector","selector":".ui-btn.ui-btn-normal.ui-btn-primary"}')) {
