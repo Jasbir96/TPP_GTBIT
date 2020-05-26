@@ -110,6 +110,7 @@ async function createChallenge(challenge) {
         console.log(err)
     }
 }
+
 async function sendData(parentId, element, data) {
     // Selenium => browser =>? JS Execute
     await driver.executeScript(
