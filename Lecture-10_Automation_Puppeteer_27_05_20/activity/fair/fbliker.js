@@ -45,7 +45,7 @@ let url, pwd, user;
         await cPostLike.click({ delay: 200 });
         idx++;
 
-        await tab.waitForSelector(".uiMorePageLoader", { hidden: true });
+        await tab.waitForSelector(".uiMorePagerLoader", { hidden: true });
 
     } while (idx < postToLike)
 
