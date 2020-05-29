@@ -14,7 +14,8 @@ let url, pwd, user;
     let browser = await puppeteer.launch({
         headless: false,
         defaultViewport: null,
-        args: ["--start-maximized", "--disable-notifications"]
+        args: ["--start-maximized", "--disable-notifications"],
+        slowMo: 400
     });
     let numberofPages = await browser.pages();
     let tab = numberofPages[0];
@@ -23,6 +24,7 @@ let url, pwd, user;
     await tab.goto(url, {
         waitUntil: "networkidle2"
     });
+
     await tab.waitForSelector("#email");
     await tab.type("#email", user, { delay: 200 });
     await tab.type("input[data-testid='royal_pass']", pwd, { delay: 200 });
@@ -32,17 +34,17 @@ let url, pwd, user;
     // multiple url  change
     await Promise.all([tab.click("div[data-key='tab_posts']"), tab.waitForNavigation({ waitUntil: "networkidle2" })]);
     await tab.waitForNavigation({ waitUntil: "networkidle2" });
-
     let idx = 0
     do {
         // _1xnd> ._4-u2.4-u8
-        await tab.waitForSelector("#pagelet_timeline_main_column ._1xnd .clearfix.uiMorePager.stat_elem _52jv");
-        let allposts = await tab.$$("#pagelet_timeline_main_column ._1xnd ._4-u2._4-u8");
+        await tab.waitForSelector("#pagelet_timeline_main_column ._1xnd .clearfix.uiMorePager");
+
+        let allposts = await tab.$$("#pagelet_timeline_main_column ._1xnd>._4-u2._4-u8");
         let cPost = allposts[idx];
-        let cPostLike = await cPost.$("._666k");
+        let cPostLike = await cPost.$("._666k ._8c74 a");
         await cPostLike.click({ delay: 200 });
         idx++;
-        
+
         await tab.waitForSelector(".uiMorePageLoader", { hidden: true });
 
     } while (idx < postToLike)
