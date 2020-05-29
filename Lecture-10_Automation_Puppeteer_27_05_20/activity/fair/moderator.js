@@ -44,6 +44,7 @@ let credentialsFile = process.argv[2];
     await Promise.all([manageTabs[1].click(), tab.waitForNavigation({
         waitUntil: "networkidle2"
     })])
+
     await handleSinglePage(tab, browser);
     console.log("All questions processed");
 })()
@@ -59,7 +60,6 @@ async function handleSinglePage(tab, browser) {
     let cPageQsolvedp = [];
     for (let i = 0; i < qonPage.length; i++) {
         // qonPage[i].getAttribute("href");
-
         let href = await tab.evaluate(function (q) {
             return q.getAttribute("href");
         }, qonPage[i]);
@@ -73,6 +73,22 @@ async function handleSinglePage(tab, browser) {
     // 1 page all process
     await Promise.all(cPageQsolvedp);
     console.log("visited all questions of one page");
+    // if next button is enabled=> next click
+    let pList = await tab.$$(".pagination ul li");
+    let nextBtn = pList[pList.length - 2];
+    function getter(elem) {
+        return elem.getAttribute("class");
+    }
+    let className = await tab.evaluate(getter, nextBtn);
+    if (className === "disabled") {
+        return;
+    } else {
+        await Promise.all([nextBtn.click(), tab.waitForNavigation({ waitUntil: "networkidle2" })]);
+        handleSinglePage(tab, browser);
+    }
+    // you have reached the last page
+    // go to next page until reached the last page
+
 
 }
 // promise => resolve when a new tab is opened
