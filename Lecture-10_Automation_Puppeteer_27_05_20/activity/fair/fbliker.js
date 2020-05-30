@@ -24,7 +24,6 @@ let url, pwd, user;
     await tab.goto(url, {
         waitUntil: "networkidle2"
     });
-
     await tab.waitForSelector("#email");
     await tab.type("#email", user, { delay: 200 });
     await tab.type("input[data-testid='royal_pass']", pwd, { delay: 200 });
@@ -38,7 +37,6 @@ let url, pwd, user;
     do {
         // _1xnd> ._4-u2.4-u8
         await tab.waitForSelector("#pagelet_timeline_main_column ._1xnd .clearfix.uiMorePager");
-
         let allposts = await tab.$$("#pagelet_timeline_main_column ._1xnd>._4-u2._4-u8");
         let cPost = allposts[idx];
         let cPostLike = await cPost.$("._666k ._8c74 a");
