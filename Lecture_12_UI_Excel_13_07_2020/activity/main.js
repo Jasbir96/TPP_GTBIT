@@ -9,7 +9,6 @@
 const electron = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-
 function createWindow() {
     const win = new BrowserWindow();
     win.loadFile("index.html").then(function () {

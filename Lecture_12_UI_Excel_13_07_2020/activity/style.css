@@ -1,0 +1,28 @@
+body,html{
+    padding: 0px;
+    margin:0px;
+}
+/* ?? */
+*{
+    box-sizing: border-box;
+}
+.menu{
+    border: 1px solid red;
+    height: 30px;
+}
+.menu-options{
+    height: 55px;
+    border: 1px solid;
+}
+.formula-container{
+    height: 30px;
+    border: 1px solid green;
+}
+.content {
+    height: calc(100vh - 145px);
+    background-color: #16c36d87;
+}
+.sheets{
+    height: 30px;
+    border: 1px solid purple;
+}
