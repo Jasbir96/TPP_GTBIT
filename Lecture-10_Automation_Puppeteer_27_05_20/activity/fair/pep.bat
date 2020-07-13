@@ -1,1 +1,1 @@
-node "fbliker.js" "credentials.json" "hindustantimes"
+node "moderator.js" "credentials.json" "hindustantimes"

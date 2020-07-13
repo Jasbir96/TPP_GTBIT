@@ -7,7 +7,6 @@ console.log("Work start");
 request(url, function (err, response, data) {
     console.log("Come back later");
     // console.log(response);clear
-
     if (err === null && response.statusCode === 200) {
         fs.writeFileSync("index.html", data);
         parseHTML(data);
