@@ -26,3 +26,11 @@ body,html{
     height: 30px;
     border: 1px solid purple;
 }
+.row{
+    display: flex;
+}
+.cell{
+min-width:87px;
+min-height: 25px;
+border: 1px solid teal;
+}

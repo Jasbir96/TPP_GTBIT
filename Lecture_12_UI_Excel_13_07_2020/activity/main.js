@@ -9,9 +9,18 @@
 const electron = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+// npm install ejs-electron
+const ejs = require("ejs-electron");
+// 2
+ejs.data({
+    "title":"Excel App",
+    "rows":100,
+    "cols":26
+})
 function createWindow() {
     const win = new BrowserWindow();
-    win.loadFile("index.html").then(function () {
+    //3
+    win.loadFile("index.ejs").then(function () {
         win.removeMenu();
         win.maximize();
         win.webContents.openDevTools();
@@ -22,6 +31,7 @@ app.whenReady().then(createWindow);
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
+
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit()
