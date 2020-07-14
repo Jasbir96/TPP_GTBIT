@@ -42,14 +42,12 @@ border: 1px solid teal;
     width: 25px;
     background-color: darkslategrey;
 }
-
 .top-row {
     display: flex;
     position: absolute;
     top: 0px;
     left: 25px;
 }
-
 .top-row .cell{
     min-width: 87px;
     min-height: 25px;
