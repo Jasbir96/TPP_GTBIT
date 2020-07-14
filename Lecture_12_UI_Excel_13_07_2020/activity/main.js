@@ -18,7 +18,11 @@ ejs.data({
     "cols":26
 })
 function createWindow() {
-    const win = new BrowserWindow();
+    const win = new BrowserWindow({
+        webPreferences:{
+            nodeIntegration:true
+        }
+    });
     //3
     win.loadFile("index.ejs").then(function () {
         win.removeMenu();
