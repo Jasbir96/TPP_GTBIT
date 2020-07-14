@@ -18,10 +18,13 @@ body,html{
     height: 30px;
     border: 1px solid green;
 }
-.content {
+.content{
     height: calc(100vh - 145px);
     background-color: #16c36d87;
+    overflow: auto;
+    position: relative;
 }
+
 .sheets{
     height: 30px;
     border: 1px solid purple;
@@ -29,8 +32,39 @@ body,html{
 .row{
     display: flex;
 }
-.cell{
+.row .cell{
 min-width:87px;
 min-height: 25px;
 border: 1px solid teal;
 }
+.top-left-cell{
+    height: 25px;
+    width: 25px;
+    background-color: darkslategrey;
+}
+
+.top-row {
+    display: flex;
+    position: absolute;
+    top: 0px;
+    left: 25px;
+}
+
+.top-row .cell{
+    min-width: 87px;
+    min-height: 25px;
+    border: 1px solid teal;
+    text-align: center;
+}
+.left-col .cell{
+    height: 25px;
+    width:25px;
+    border: 1px solid teal;
+}
+.grid{
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+

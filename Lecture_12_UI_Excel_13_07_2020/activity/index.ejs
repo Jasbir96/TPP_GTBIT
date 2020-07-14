@@ -10,26 +10,42 @@
 
 <body>
     <!-- #menu-conatiner+#menu-option-container+(#formula-container>(#address-input+#formula-input))+#content-container+#sheets -->
-
     <div id="menu-container" class="menu">Menu</div>
     <div id="menu-option-container" class="menu-options">Menu Options</div>
     <div id="formula-container" class="formula-container">
         <input type="text" id="address-input">
         <input type="text" id="formula-input">
     </div>
-    <div id="content-container" class="content"><div id="grid">
-        <%for(let i=0;i<rows;i++){%>
-        <div class="row">
+    <div id="content-container" class="content">
+        <div id="top-left-cell" class="top-left-cell"></div>
+        <div id="top-row" class="top-row">
             <%for(let j=0;j<cols;j++){%>
-            <div class="cell" contenteditable="true">
-                <%=i%><%=j%>
+            <div class="cell">
+                <%=String.fromCharCode(65+j)%>
             </div>
             <%}%>
         </div>
+        <div id="left-col" class="left-col">
+        <%for(let i=1;i<=rows;i++){%>
+            <div class="cell">
+                <%=i%>
+            </div>
+            <%}%>
+        </div>
+        <div id="grid" class="grid">
+            <%for(let i=0;i<rows;i++){%>
+            <div class="row">
+                <%for(let j=0;j<cols;j++){%>
+                <div class="cell" contenteditable="true">
+                    <%=i%><%=j%>
+                </div>
+                <%}%>
+        </div>
         <%}%>
-        </div></div>
-    <div id="sheets" class="sheets">
-        
+            </div>
+        </div>
+        <div id="sheets" class="sheets">
+
         </div>
 </body>
 
