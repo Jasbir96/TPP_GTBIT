@@ -1,6 +1,7 @@
 const $ = require("jquery");
 const fs = require("fs");
 const dialog = require("electron").remote.dialog;
+
 $(document).ready(function () {
     let db;
     $("#grid .cell").on("click", function () {
@@ -10,6 +11,7 @@ $(document).ready(function () {
         //    val to set value of an input
         $("#address-input").val(address);
     })
+    // *************************************New,Open,Save****************************************
     // Create 
     $("#New").on("click", function () {
         // Create a 2d array representing grid
@@ -22,21 +24,18 @@ $(document).ready(function () {
                 // Open and save
                 // Grid clear
                 $(rowkeCells[j]).html("");
-                let cell = "";
+                let cell = {
+                    value: "",
+                    formula: ""
+                };
                 row.push(cell);
             }
             db.push(row);
         }
         // clear whole grid
-        // console.log(db);
-    })
-
-    // Update
-    $("#grid .cell").on("blur", function () {
-        let { rowId, colId } = getRC(this);
-        db[rowId][colId] = $(this).html();
         console.log(db);
     })
+
     // Save
     $("#Save").on("click", async function () {
         // Open Dialog Box to save 
@@ -60,19 +59,70 @@ $(document).ready(function () {
             for (let j = 0; j < rowkeCells.length; j++) {
                 // Open and save
                 // Grid clear
-                $(rowkeCells[j]).html(db[i][j]);  
+                $(rowkeCells[j]).html(db[i][j].value);
+                $(rowkeCells[j]).html(db[i][j].formula);
             }
         }
         console.log("File Opened");
         // Write onto grid
     })
+    // ****************************Formula*******************************************
+    // Update
+    $("#grid .cell").on("blur", function () {
+        let { rowId, colId } = getRC(this);
+        db[rowId][colId].value = $(this).html();
+        console.log(db);
+    })
+    $("#formula-input").on("blur", function () {
+        // get formula
+        let formula = $(this).val();
+        // set  formula property of the cell
+        let cellElemAdd = $("#address-input").val();
+        let { colId, rowId } = getRcfromAdd(cellElemAdd);
+        let cellObject = db[rowId][colId];
+        cellObject.formula = formula;
+        //  evaluate the formula
+        let rVal = evaluate(formula);
+        // update the cell's  ui
+        updateCell(cellObject, rowId, colId, rVal);
+    })
+    function evaluate(formula) {
+        // ( A1 + A2 )
+        let formulaComponents = formula.split(" ");
+        // [(,A1,+,A2,)]
+        console.log(formula)
+        for (let i = 0; i < formulaComponents.length; i++) {
+            let CharCode = formulaComponents[i].charCodeAt(0);
+            if (CharCode >= 65 && CharCode <= 90) {
+                let { rowId, colId } = getRcfromAdd(formulaComponents[i]);
+                let pValue = db[rowId][colId].value;
+                formula = formula.replace(formulaComponents[i], pValue);
+            }
+        }
+        console.log(formula);
+        // ( 10 + 20 )
+        let rVal = eval(formula);
+        console.log(rVal);
+        return rVal;
+    }
+    function updateCell(cellObject, rowId, colId, rVal) {
+
+        cellObject.value = rVal;
+        // change on ui also
+        $(`#grid .cell[row-id=${rowId}][col-id=${colId}]`).html(rVal);
+    }
+    function getRcfromAdd(cellElemAdd) {
+        let colId = Number(cellElemAdd.charCodeAt(0)) - 65;
+        let rowId = Number(cellElemAdd.substring(1)) - 1;
+        return { colId, rowId };
+    }
     function getRC(element) {
         let rowId = $(element).attr("row-id");
         let colId = $(element).attr("col-id");
         return { rowId, colId };
     }
-    // function init() {
-    //     $("#New").trigger("click");
-    // }
-    // init();
+    function init() {
+        $("#New").trigger("click");
+    }
+    init();
 })
