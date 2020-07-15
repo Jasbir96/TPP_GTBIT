@@ -60,7 +60,6 @@ $(document).ready(function () {
                 // Open and save
                 // Grid clear
                 $(rowkeCells[j]).html(db[i][j].value);
-                $(rowkeCells[j]).html(db[i][j].formula);
             }
         }
         console.log("File Opened");
