@@ -26,7 +26,8 @@ $(document).ready(function () {
                 $(rowkeCells[j]).html("");
                 let cell = {
                     value: "",
-                    formula: ""
+                    formula: "",
+                    children: []
                 };
                 row.push(cell);
             }
@@ -67,24 +68,52 @@ $(document).ready(function () {
     })
     // ****************************Formula*******************************************
     // Update
+    // value=> value
+    // formula=> value
     $("#grid .cell").on("blur", function () {
         let { rowId, colId } = getRC(this);
-        db[rowId][colId].value = $(this).html();
+        let val = $(this).html();
         console.log(db);
+        let cellObject = db[rowId][colId];
+        // No change
+        if (cellObject.value == $(this).html()) {
+            console.log("Nothing Changed")
+            return;
+        }
+        // formula=> fromula remove
+        if (cellObject.formula) {
+            removeFormula(cellObject.formula, rowId, colId);
+            cellObject.formula = "";
+        }
+        updateCell(cellObject, rowId, colId, val);
     })
+    // formula => formula
+    // value=> formula
     $("#formula-input").on("blur", function () {
         // get formula
         let formula = $(this).val();
         // set  formula property of the cell
         let cellElemAdd = $("#address-input").val();
+
         let { colId, rowId } = getRcfromAdd(cellElemAdd);
         let cellObject = db[rowId][colId];
+        // No change
+        if (cellObject.formula == $(this).val()) {
+            return;
+        }
+        
+        if (cellObject.formula) {
+            removeFormula(cellObject.formula, rowId, colId);
+            cellObject.formula = "";
+        }
         cellObject.formula = formula;
         //  evaluate the formula
         let rVal = evaluate(formula);
         // update the cell's  ui
+        setupFormula(formula, rowId, colId);
         updateCell(cellObject, rowId, colId, rVal);
     })
+
     function evaluate(formula) {
         // ( A1 + A2 )
         let formulaComponents = formula.split(" ");
@@ -104,11 +133,61 @@ $(document).ready(function () {
         console.log(rVal);
         return rVal;
     }
-    function updateCell(cellObject, rowId, colId, rVal) {
 
+    function updateCell(cellObject, rowId, colId, rVal) {
+// 
         cellObject.value = rVal;
         // change on ui also
         $(`#grid .cell[row-id=${rowId}][col-id=${colId}]`).html(rVal);
+
+        for (let i = 0; i < cellObject.children.length; i++) {
+            let chObjRC = cellObject.children[i];
+            let fChObj = db[chObjRC.rowId][chObjRC.colId];
+            let rVal = evaluate(fChObj.formula);
+            updateCell(fChObj, chObjRC.rowId, chObjRC.colId, rVal);
+        }
+    }
+
+    function setupFormula(formula, chrowId, chcolId) {
+        // ( A1 + A2 )
+        let formulaComponents = formula.split(" ");
+        // [(,A1,+,A2,)]
+        console.log(formula);
+        for (let i = 0; i < formulaComponents.length; i++) {
+            let CharCode = formulaComponents[i].charCodeAt(0);
+            if (CharCode >= 65 && CharCode <= 90) {
+                let { rowId, colId } = getRcfromAdd(formulaComponents[i]);
+                let parentObj = db[rowId][colId];
+
+                parentObj.children.push({
+                    rowId: chrowId,
+                    colId: chcolId
+                })
+
+            }
+        }
+    }
+    function removeFormula(formula, chrowId, chcolId) {
+        // ( A1 + A2 )
+        let formulaComponents = formula.split(" ");
+        // [(,A1,+,A2,)]
+        console.log(formula);
+        for (let i = 0; i < formulaComponents.length; i++) {
+            let CharCode = formulaComponents[i].charCodeAt(0);
+            if (CharCode >= 65 && CharCode <= 90) {
+                let { rowId, colId } = getRcfromAdd(formulaComponents[i]);
+                let parentObj = db[rowId][colId];
+
+                //    find index
+                // remove your self
+                let remChArr = parentObj.children.filter(function (chObj) {
+                    return !(chObj.rowId == chrowId && chObj.colId == chcolId)
+                })
+                parentObj.children = remChArr;
+
+            }
+        }
+
     }
     function getRcfromAdd(cellElemAdd) {
         let colId = Number(cellElemAdd.charCodeAt(0)) - 65;
@@ -120,6 +199,7 @@ $(document).ready(function () {
         let colId = $(element).attr("col-id");
         return { rowId, colId };
     }
+
     function init() {
         $("#New").trigger("click");
     }
